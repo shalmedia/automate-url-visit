@@ -1,0 +1,23 @@
+name: Website Health Check
+on:
+  schedule:
+    - cron: '*/1 * * * *'  # Every 15 minutes
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check main website
+        run: |
+          if curl -s -f https://shalmedia.com/labs/decodo-click-manager/process_automations.php > /dev/null; then
+            echo "Website is up"
+          else
+            echo "Website is down"
+            exit 1
+          fi
+        
+      - name: Notify on failure
+        if: failure()
+        uses: actions/scripts/notify-slack@v1
+        with:
+          message: "Website is down! Check immediately."
