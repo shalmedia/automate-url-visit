@@ -1,4 +1,4 @@
-name: Website Health Check
+name: automate-url-visit
 on:
   schedule:
     - cron: '*/1 * * * *'  # Every 15 minutes
